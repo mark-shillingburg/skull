@@ -160,7 +160,7 @@ class Iris():
             else:
                 dwell = min_iris_dwell
                 x, y = self.position()
-                print(self.dir, self.x, self.y)
+                #print(self.dir, self.x, self.y)
                 if (self.dir==Direction.up):
                     if y == max_dir:
                         self.dir = Direction.static
@@ -313,7 +313,7 @@ class Eyelid():
                      time.sleep(closed_dwell)
                      self.state = LidState.opened
                 self.update = True
-                print(self.state)
+                #print(self.state)
                 
 
     def draw(self, image):

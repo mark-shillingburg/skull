@@ -49,6 +49,6 @@ class Jaw():
                 else:
                     self.closed()
                 time.sleep(random.randint(1,jawDwell))
-                print(self.state)
+                #print(self.state)
 
 
