@@ -1,0 +1,15 @@
+[Unit]
+Description=Skull Service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/home/pi/skull
+User=pi
+Group=pi
+ExecStart=/home/pi/skull/skull.py
+
+[Install]
+WantedBy=multi-user.target
+
