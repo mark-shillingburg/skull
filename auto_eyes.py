@@ -49,9 +49,9 @@ class Eyes():
 
     def run(self):
         while not self.stop:
-            if not self.auto:
-                time.sleep(1)
-            else:
+            #if not self.auto:
+            #    time.sleep(1)
+            #else:
                 if self.eye.update():
                     self.draw()
                 time.sleep(eyes_loop_time)
@@ -290,6 +290,7 @@ class Eyelid():
     def closed(self):
         self.state = LidState.closed
         self.update = True
+        print("Lid should be closed")
 
     def setAuto(self, auto):
         self.auto = auto
@@ -302,6 +303,7 @@ class Eyelid():
         while not self.stop:
             if not self.auto:
                 time.sleep(1)
+                print(self.state)
             else:
                 if self.state == LidState.opened:
                     time.sleep(randint(1, max_open_dwell))

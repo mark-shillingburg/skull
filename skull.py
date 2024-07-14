@@ -17,11 +17,11 @@ try:
         pir.waitForMotion()
         eyes.setAuto(True)
         jaw.setAuto(True)
-        time.sleep(10)
+        time.sleep(15)
         pir.waitForNoMotion
         eyes.setAuto(False)
         jaw.setAuto(False)
-        time.sleep(2)
+        time.sleep(5)
         eyes.closed()
         jaw.closed()
 

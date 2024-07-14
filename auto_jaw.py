@@ -5,6 +5,10 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 from gpiozero import Servo
 import threading
 
+
+minPulse = 0.00091  # in seconds (eg. 0.750ms)
+maxPulse = 0.00122  # in seconds (eg. 1.2500ms
+
 class JawState(Enum):
     closed = 0
     opened = 1
@@ -13,7 +17,7 @@ jawDwell   = 4
 
 class Jaw():
     def __init__(self, gpio=19):
-        self.servo = Servo(gpio, pin_factory=PiGPIOFactory())
+        self.servo = Servo(gpio, pin_factory=PiGPIOFactory(), min_pulse_width=minPulse, max_pulse_width=maxPulse)
         self.auto = False
         self.stop = False
         self.state = JawState.closed
