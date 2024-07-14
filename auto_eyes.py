@@ -122,7 +122,7 @@ class Direction(Enum):
 max_dir   = 6
 xstep     = 8
 ystep     = 4
-max_iris_dwell = 4   # seconds
+max_iris_dwell = 3   # seconds
 min_iris_dwell = 0.1 # 10 frames per second movement
 
 
@@ -241,7 +241,7 @@ class LidState(Enum):
     
 closing_dwell  = 0.1 # seconds
 closed_dwell   = 0.3 # seconds
-max_open_dwell = 4   # seconds
+max_open_dwell = 2   # seconds
 
 
 class Eyelid():
@@ -290,7 +290,7 @@ class Eyelid():
     def closed(self):
         self.state = LidState.closed
         self.update = True
-        print("Lid should be closed")
+        #print("Lid should be closed")
 
     def setAuto(self, auto):
         self.auto = auto
@@ -303,7 +303,7 @@ class Eyelid():
         while not self.stop:
             if not self.auto:
                 time.sleep(1)
-                print(self.state)
+                #print(self.state)
             else:
                 if self.state == LidState.opened:
                     time.sleep(randint(1, max_open_dwell))

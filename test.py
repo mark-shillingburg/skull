@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from gpiozero import Servo
 import time
 import sys
@@ -5,24 +7,26 @@ from auto_eyes import Eye
 from auto_jaw import Jaw
 from pir import PIR
 
-sensor = PIR()
-while not sensor.detected:
-    time.sleep(.1)
-print("detected")
-while sensor.detected:
-    time.sleep(.1)
-print("not detected")
-sensor.exit()
-exit()
+#sensor = PIR()
+#while not sensor.detected:
+#    time.sleep(.1)
+#print("detected")
+#while sensor.detected:
+#    time.sleep(.1)
+#print("not detected")
+#sensor.exit()
+#exit()
 
-#jaw=Servo(19)
-#while True:
-#    time.sleep(1)
-#    jaw.min()
-#    print("Open")
-#    time.sleep(1)
-#    jaw.max()
-#    print("Closed")
+jaw=Jaw()
+jaw.setAuto(False)
+
+sequence = [ 1, -.7, 0.3, -0.3, 0.3, -0.3, 0.3]
+
+for value in sequence:
+    jaw.setValue(value)
+    time.sleep(.25)
+jaw.closed()
+jaw.exit()
 
 #lid = Eyelid()
 

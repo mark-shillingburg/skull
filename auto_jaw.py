@@ -40,6 +40,9 @@ class Jaw():
         self.servo.min()
         self.state = JawState.closed
 
+    def setValue(self, value):
+        self.servo.value = value
+
     def getState(self):
         return self.state
 
@@ -54,5 +57,18 @@ class Jaw():
                     self.closed()
                 time.sleep(random.randint(1,jawDwell))
                 #print(self.state)
+    
+    def doSequence(self, sequence):
+        for x in range(len(sequence)):
+            entry = sequence[x]
+            self.servo.value = entry[0]
+            time.sleep(entry[1])
+        self.closed()
+
+if __name__ == "__main__":
+    jaw = Jaw()
+    jaw.setAuto(False)
+    jaw.doSequence(([1,.5], [0,.25], [1, .5], [0,.25], [1, .5], [0, .25], [1, .5], [0, .5]))
+    jaw.exit()
 
 
