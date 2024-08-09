@@ -8,7 +8,6 @@ from auto_eyes import Eyes
 from auto_jaw import Jaw
 from pir import PIR
 
-
 logging.basicConfig(level=logging.DEBUG)
 class skullState(Enum):
     asleep = 0
@@ -32,15 +31,17 @@ class Skull():
             if self.state == skullState.asleep:
                 if self.pir.motion_detected():
                     self.wakeUp()
+
             else:  # awake
-                time.sleep(15)   # let it run for at least 15 seconds
+                #time.sleep(15)   # let it run for at least 15 seconds
                 self.gotoSleep()
-            time.sleep(0.5)
+            time.sleep(0.3)
 
     def wakeUp(self):
         self.eyes.setAuto(True)
-        self.jaw.setAuto(True)
+        self.jaw.doRandomAudio()
         self.state = skullState.awake
+
 
     def gotoSleep(self):
         self.eyes.setAuto(False)
