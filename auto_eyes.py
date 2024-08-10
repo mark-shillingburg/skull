@@ -241,7 +241,7 @@ class LidState(Enum):
     
 closing_dwell  = 0.1 # seconds
 closed_dwell   = 0.3 # seconds
-max_open_dwell = 2   # seconds
+max_open_dwell = 3   # seconds
 
 
 class Eyelid():
@@ -306,7 +306,7 @@ class Eyelid():
                 #print(self.state)
             else:
                 if self.state == LidState.opened:
-                    time.sleep(randint(1, max_open_dwell))
+                    time.sleep(randint(2, max_open_dwell))
                     self.state = LidState.closing
                 elif self.state == LidState.closing:
                     time.sleep(closing_dwell)
