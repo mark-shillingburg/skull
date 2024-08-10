@@ -8,4 +8,4 @@ WorkingDirectory=/home/pi/skull
 ExecStart=/home/pi/skull/skull.py
 
 [Install]
-
+WantedBy=default.target
