@@ -31,7 +31,17 @@ LaughSeq4 = JawSequence(2, (LaughSeq1, LaughSeq3))
 LaughSeq  = JawSequence(1, (LaughSeq0, LaughSeq1, LaughSeq2, LaughSeq4))
 LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", LaughSeq)
 
-AudioSeqList = (LaughAudioSeq, LaughAudioSeq)
+# I alone remain
+PainSeq0 = JawSequence(1, ([-1, 1], [.8, .4], [-.5, .1], [.8, .4], [-.2, .6], [.6, .2], [0, .1], [.8, .2], [-.8, 1.2]))
+# to bring delivery
+PainSeq1 = JawSequence(1, ([.6, .3], [-.5, .2], [.8, .5], [-.5, .4], [.7, .2], [-.5, .1], [.7, .1], [-.5, .1], [.7, .3], [-.5, .3] ))
+# of your pain
+PainSeq2 = JawSequence(1, ([.6, .2], [-.5, .3], [.8, .3], [-.5, .2], [.8, .4], [-1, 2], ))
+
+PainSeq      = JawSequence(1, (PainSeq0, PainSeq1, PainSeq2))
+PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", PainSeq)
+
+AudioSeqList = (LaughAudioSeq, PainAudioSeq)
 
 def isJawSequence(sequence):
     return sequence.__class__.__name__ == "JawSequence"
@@ -112,6 +122,9 @@ if __name__ == "__main__":
     jaw = Jaw()
     jaw.setAuto(False)
     jaw.doRandomAudio()
+    time.sleep(5)
+    jaw.doRandomAudio()
+    #jaw.doAudioSequence(PainAudioSeq)
     jaw.exit()
 
 
