@@ -19,8 +19,9 @@ class JawSequence():
         self.seq = seq
 
 class AudioSequence():
-    def __init__(self, audio="", jawSeq=()):
+    def __init__(self, audio="", volume=.4, jawSeq=()):
         self.audio = audio
+        self.volume = volume
         self.jawSeq = jawSeq
 
 LaughSeq0 = JawSequence(1, ([-1, .8], ))
@@ -29,7 +30,7 @@ LaughSeq2 = JawSequence(6, ([-.1, .25], [.6, .20]))
 LaughSeq3 = JawSequence(7, ([-.1, .25], [.6, .25]))
 LaughSeq4 = JawSequence(2, (LaughSeq1, LaughSeq3))
 LaughSeq  = JawSequence(1, (LaughSeq0, LaughSeq1, LaughSeq2, LaughSeq4))
-LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", LaughSeq)
+LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", .4, LaughSeq)
 
 # I alone remain
 PainSeq0 = JawSequence(1, ([-1, 1], [.8, .4], [-.5, .1], [.8, .4], [-.2, .6], [.6, .2], [0, .1], [.8, .2], [-.8, 1.2]))
@@ -39,9 +40,21 @@ PainSeq1 = JawSequence(1, ([.6, .3], [-.5, .2], [.8, .5], [-.5, .4], [.7, .2], [
 PainSeq2 = JawSequence(1, ([.6, .2], [-.5, .3], [.8, .3], [-.5, .2], [.8, .4], [-1, 2], ))
 
 PainSeq      = JawSequence(1, (PainSeq0, PainSeq1, PainSeq2))
-PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", PainSeq)
+PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", .6, PainSeq)
 
-AudioSeqList = (LaughAudioSeq, PainAudioSeq)
+# Freaks
+FreaksSeq0 = JawSequence(1, ([-1, 1.8], [.6, .3], [-.7, 1.7], ))
+# all of you
+FreaksSeq1 = JawSequence(1, ([.7, .2], [-.5, .2], [.5, .1], [-.5, .1], ))
+# all of you freaks 
+FreaksSeq2 = JawSequence(1, ([-.8, 1.1], FreaksSeq1, [.6, .3], [-.9, .6], ))
+# mutations
+FreaksSeq3 = JawSequence(1, ([.5, .2], [-.5, .2], [.7, .3], [-.5, .2], [.3, .2], [-1, 2], ))
+
+FreaksSeq      = JawSequence(1, (FreaksSeq0, FreaksSeq1, FreaksSeq2, FreaksSeq3))
+FreaksAudioSeq = AudioSequence("Freaks.wav", .2, FreaksSeq)
+
+AudioSeqList = (LaughAudioSeq, PainAudioSeq, FreaksAudioSeq)
 
 def isJawSequence(sequence):
     return sequence.__class__.__name__ == "JawSequence"
@@ -111,6 +124,7 @@ class Jaw():
     def doAudioSequence(self, audioSequence):
         mixer.music.load(audioSequence.audio)
         mixer.music.play()
+        mixer.music.set_volume(audioSequence.volume)
         self.doJawSequence(audioSequence.jawSeq)
         self.closed()
 
@@ -121,10 +135,10 @@ class Jaw():
 if __name__ == "__main__":
     jaw = Jaw()
     jaw.setAuto(False)
-    jaw.doRandomAudio()
-    time.sleep(5)
-    jaw.doRandomAudio()
-    #jaw.doAudioSequence(PainAudioSeq)
+    #jaw.doRandomAudio()
+    #time.sleep(5)
+    #jaw.doRandomAudio()
+    jaw.doAudioSequence(FreaksAudioSeq)
     jaw.exit()
 
 
