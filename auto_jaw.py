@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 VOLUME = 0.4
 
-minPulse = 0.00091  # in seconds (eg. 0.750ms)
+minPulse = 0.00090  # in seconds (eg. 0.750ms)
 maxPulse = 0.00122  # in seconds (eg. 1.2500ms
 jawDwell = 4
 
@@ -30,7 +30,7 @@ LaughSeq2 = JawSequence(6, ([-.1, .25], [.6, .20]))
 LaughSeq3 = JawSequence(7, ([-.1, .25], [.6, .25]))
 LaughSeq4 = JawSequence(2, (LaughSeq1, LaughSeq3))
 LaughSeq  = JawSequence(1, (LaughSeq0, LaughSeq1, LaughSeq2, LaughSeq4))
-LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", .4, LaughSeq)
+LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", .3, LaughSeq)
 
 # I alone remain
 PainSeq0 = JawSequence(1, ([-1, 1], [.8, .4], [-.5, .1], [.8, .4], [-.2, .6], [.6, .2], [0, .1], [.8, .2], [-.8, 1.2]))
@@ -40,7 +40,7 @@ PainSeq1 = JawSequence(1, ([.6, .3], [-.5, .2], [.8, .5], [-.5, .4], [.7, .2], [
 PainSeq2 = JawSequence(1, ([.6, .2], [-.5, .3], [.8, .3], [-.5, .2], [.8, .4], [-1, 2], ))
 
 PainSeq      = JawSequence(1, (PainSeq0, PainSeq1, PainSeq2))
-PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", .6, PainSeq)
+PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", .7, PainSeq)
 
 # Freaks
 FreaksSeq0 = JawSequence(1, ([-1, 1.8], [.6, .3], [-.7, 1.7], ))
@@ -52,9 +52,21 @@ FreaksSeq2 = JawSequence(1, ([-.8, 1.1], FreaksSeq1, [.6, .3], [-.9, .6], ))
 FreaksSeq3 = JawSequence(1, ([.5, .2], [-.5, .2], [.7, .3], [-.5, .2], [.3, .2], [-1, 2], ))
 
 FreaksSeq      = JawSequence(1, (FreaksSeq0, FreaksSeq1, FreaksSeq2, FreaksSeq3))
-FreaksAudioSeq = AudioSequence("Freaks.wav", .2, FreaksSeq)
+FreaksAudioSeq = AudioSequence("Freaks.wav", .7, FreaksSeq)
 
-AudioSeqList = (LaughAudioSeq, PainAudioSeq, FreaksAudioSeq)
+#                                      Now,                 twelve               long                 hours
+DriveSeq0 = JawSequence(1, ([-1, 1.7], [.6, .4], [-.7, .9], [.7, .3], [-.5, .2], [.5, .2], [-.5, .2], [.7, .3], [-.7, .6], ))
+#                           before                         the sun              will rise
+DriveSeq1 = JawSequence(1, ([.7, .2], [-.5, .2], [.5, .3], [-.5, .1], [.5, .3], [-.7, 1.3], ))
+#                           drive                them                  back 
+DriveSeq2 = JawSequence(1, ([.6, .3], [-.6, .2], [.6, .2], [-.5, .2], [.8, .2], [-.7, .2], ))
+#                           to                   darkness
+DriveSeq3 = JawSequence(1, ([.5, .1], [-.5, .1], [.6, .3], [-1, 2], ))
+
+DriveSeq = (DriveSeq0, DriveSeq1, DriveSeq2, DriveSeq3)
+DriveAudioSeq = AudioSequence("DriveThemBackIntoDarkness.wav", .7, DriveSeq)
+
+AudioSeqList = (LaughAudioSeq, PainAudioSeq, FreaksAudioSeq, DriveAudioSeq)
 
 def isJawSequence(sequence):
     return sequence.__class__.__name__ == "JawSequence"
@@ -138,7 +150,7 @@ if __name__ == "__main__":
     #jaw.doRandomAudio()
     #time.sleep(5)
     #jaw.doRandomAudio()
-    jaw.doAudioSequence(FreaksAudioSeq)
+    jaw.doAudioSequence(DriveAudioSeq)
     jaw.exit()
 
 
