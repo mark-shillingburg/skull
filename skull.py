@@ -39,7 +39,8 @@ class Skull():
 
     def wakeUp(self):
         self.eyes.setAuto(True)
-        self.jaw.doRandomAudio()
+        #self.jaw.doRandomAudio()
+        self.jaw.doNextAudio()
         self.state = skullState.awake
 
 

@@ -30,7 +30,7 @@ LaughSeq2 = JawSequence(6, ([-.1, .25], [.6, .20]))
 LaughSeq3 = JawSequence(7, ([-.1, .25], [.6, .25]))
 LaughSeq4 = JawSequence(2, (LaughSeq1, LaughSeq3))
 LaughSeq  = JawSequence(1, (LaughSeq0, LaughSeq1, LaughSeq2, LaughSeq4))
-LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", .3, LaughSeq)
+LaughAudioSeq =  AudioSequence("VincentPriceLaugh.wav", .5, LaughSeq)
 
 # I alone remain
 PainSeq0 = JawSequence(1, ([-1, 1], [.8, .4], [-.5, .1], [.8, .4], [-.2, .6], [.6, .2], [0, .1], [.8, .2], [-.8, 1.2]))
@@ -40,7 +40,7 @@ PainSeq1 = JawSequence(1, ([.6, .3], [-.5, .2], [.8, .5], [-.5, .4], [.7, .2], [
 PainSeq2 = JawSequence(1, ([.6, .2], [-.5, .3], [.8, .3], [-.5, .2], [.8, .4], [-1, 2], ))
 
 PainSeq      = JawSequence(1, (PainSeq0, PainSeq1, PainSeq2))
-PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", .7, PainSeq)
+PainAudioSeq = AudioSequence("DeliveryOfYourPain.MP3", .9, PainSeq)
 
 # Freaks
 FreaksSeq0 = JawSequence(1, ([-1, 1.8], [.6, .3], [-.7, 1.7], ))
@@ -52,7 +52,7 @@ FreaksSeq2 = JawSequence(1, ([-.8, 1.1], FreaksSeq1, [.6, .3], [-.9, .6], ))
 FreaksSeq3 = JawSequence(1, ([.5, .2], [-.5, .2], [.7, .3], [-.5, .2], [.3, .2], [-1, 2], ))
 
 FreaksSeq      = JawSequence(1, (FreaksSeq0, FreaksSeq1, FreaksSeq2, FreaksSeq3))
-FreaksAudioSeq = AudioSequence("Freaks.wav", .7, FreaksSeq)
+FreaksAudioSeq = AudioSequence("Freaks.wav", .9, FreaksSeq)
 
 #                                      Now,                 twelve               long                 hours
 DriveSeq0 = JawSequence(1, ([-1, 1.7], [.6, .4], [-.7, .9], [.7, .3], [-.5, .2], [.5, .2], [-.5, .2], [.7, .3], [-.7, .6], ))
@@ -64,9 +64,31 @@ DriveSeq2 = JawSequence(1, ([.6, .3], [-.6, .2], [.6, .2], [-.5, .2], [.8, .2], 
 DriveSeq3 = JawSequence(1, ([.5, .1], [-.5, .1], [.6, .3], [-1, 2], ))
 
 DriveSeq = (DriveSeq0, DriveSeq1, DriveSeq2, DriveSeq3)
-DriveAudioSeq = AudioSequence("DriveThemBackIntoDarkness.wav", .7, DriveSeq)
+DriveAudioSeq = AudioSequence("DriveThemBackIntoDarkness.wav", .9, DriveSeq)
 
-AudioSeqList = (LaughAudioSeq, PainAudioSeq, FreaksAudioSeq, DriveAudioSeq)
+#                                      Doctor...
+DeadSeq0 = JawSequence(1, ([-1, .4], [.7, .4], [0, .1], [-.7, 1.1], ))
+#                          I                    am
+DeadSeq1 = JawSequence(1, ([.7, .3], [-.5, .2], [.7, .3], [-.5, .2], ))
+#                          already                       dead
+DeadSeq2 = JawSequence(1, ([.7, .1], [0, .1], [.6, .1], [-.7, 1.2], [.7, .2], [-1, 1], ))
+ 
+DeadSeq = (DeadSeq0, DeadSeq1, DeadSeq2)
+DeadAudioSeq = AudioSequence("AlreadyDead.wav", .9, DeadSeq)
+
+#                                   If                   you                  so much 
+ExecSeq0 = JawSequence(1, ([-1, 1], [.7, .2], [-.5, .1], [.7, .2], [-.5, .1], [.7, .4], [-.5, .1],  ))
+#                          as                    show                your 
+ExecSeq1 = JawSequence(1, ([.7, .1], [-.5, .1], [.7, .2], [-.5, .1], [.7, .2], [-.5, .1], ))
+#                          masks                around               here                 again
+ExecSeq2 = JawSequence(1, ([.7, .2], [-.5, .1], [.7, .3], [-.5, .1], [.7, .2], [-.5, .1], [.7, .3], [-.5, .3], ))
+#                          I'll               have                  you                 excuted
+ExecSeq3 = JawSequence(1, ([.7, .2], [0, .1], [.7, .2], [-.5, .2], [.7, .1], [-.5, .1], [.7, .4], [-1, 1], ))
+
+ExecSeq = (ExecSeq0, ExecSeq1, ExecSeq2, ExecSeq3)
+ExecAudioSeq = AudioSequence("Executed.wav", .9, ExecSeq)
+
+AudioSeqList = [LaughAudioSeq, PainAudioSeq, FreaksAudioSeq, DriveAudioSeq, DeadAudioSeq, ExecAudioSeq]
 
 def isJawSequence(sequence):
     return sequence.__class__.__name__ == "JawSequence"
@@ -81,6 +103,7 @@ class Jaw():
         self.auto = False
         self.stop = False
         self.state = JawState.closed
+        self.lastPlayed = len(AudioSeqList)-1
         self.closed()
         mixer.init()
         mixer.music.set_volume(VOLUME)
@@ -141,18 +164,23 @@ class Jaw():
         self.closed()
 
     def doRandomAudio(self):
-        audioSeq = random.choice(AudioSeqList)
-        self.doAudioSequence(audioSeq)
+        self.lastPlayed = random.randint(0, len(AudioSeqList)-1)
+        self.doAudioSequence(AudioSeqList[self.lastPlayed])
+
+    def doNextAudio(self):
+        self.lastPlayed += 1
+        if self.lastPlayed == len(AudioSeqList):
+            self.lastPlayed = 0
+        print(self.lastPlayed)
+        self.doAudioSequence(AudioSeqList[self.lastPlayed])
 
 if __name__ == "__main__":
     jaw = Jaw()
     jaw.setAuto(False)
-    #jaw.doRandomAudio()
-    #time.sleep(5)
-    #jaw.doRandomAudio()
-    jaw.doAudioSequence(DriveAudioSeq)
+    for x in range(len(AudioSeqList)):
+        jaw.doNextAudio()
+    #jaw.doAudioSequence(ExecAudioSeq)
     jaw.exit()
-
 
 
 
